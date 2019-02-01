@@ -1,0 +1,37 @@
+@startuml
+title h2数据库通信交互图
+skinparam handwritten true
+participant client as client
+participant server as server
+
+
+== 初始化阶段 ==
+client -> server:初始化信息，如支持的版本号，用户名密码等
+server -> client:通信协议版本号
+client -> server:设置sessionId
+server -> client:是否自动提交
+
+== 通信阶段 ==
+
+== 查询示例 ==
+
+group prepare
+client -> server:SESSION_PREPARE_READ_PARAMS
+server -> client:
+end
+group query
+end
+
+== 更新示例 ==
+group prepare
+client -> server:SESSION_PREPARE_READ_PARAMS
+server -> client:
+end
+group update
+client -> server:COMMAND_EXECUTE_UPDATE
+server -> client:
+end
+
+== 其他命令示例 ==
+
+@enduml
