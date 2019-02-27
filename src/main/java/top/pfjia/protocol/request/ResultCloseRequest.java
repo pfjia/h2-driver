@@ -1,7 +1,7 @@
 package top.pfjia.protocol.request;
 
 import lombok.Data;
-import top.pfjia.protocol.enums.RequestCommandType;
+import top.pfjia.protocol.enums.RequestOperationType;
 import top.pfjia.protocol.response.NoneResponse;
 
 /**
@@ -13,7 +13,7 @@ import top.pfjia.protocol.response.NoneResponse;
 @Data
 public class ResultCloseRequest extends CommandRequest<NoneResponse> {
     {
-        commandType = RequestCommandType.RESULT_CLOSE;
+        operationType = RequestOperationType.RESULT_CLOSE;
     }
 
     private int id;

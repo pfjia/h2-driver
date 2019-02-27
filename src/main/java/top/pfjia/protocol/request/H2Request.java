@@ -28,7 +28,7 @@ public abstract class H2Request<R extends H2Response> extends RemotingCommand {
 
     public boolean needResponse() {
         if (this instanceof CommandRequest){
-            return ((CommandRequest<R>) this).commandType.isNeedResponse();
+            return ((CommandRequest<R>) this).operationType.isNeedResponse();
         }
         throw new RuntimeException();
     }

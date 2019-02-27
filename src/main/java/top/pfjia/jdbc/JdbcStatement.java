@@ -54,8 +54,28 @@ public class JdbcStatement implements Statement {
 
     @Override
     public ResultSet executeQuery(String sql) throws SQLException {
+        prepareParam(sql);
+//        response
+
+
+        int resultSetId = IdGeneratorKit.getNextId(IdType.RESULT_SET);
+
+        CommandExecuteQueryRequest r2 = new CommandExecuteQueryRequest();
+        List<Value> valueList = new ArrayList<>();
+        r2.setStatementId(id)
+                .setFetchSize(Integer.MAX_VALUE)
+                .setMaxRows(Integer.MAX_VALUE)
+                .setResultSetId(resultSetId)
+                .setValueList(valueList);
+        CommandExecuteQueryResponse response1 = nettyClient().invokeSync(socketAddress(), r2);
+
+        checkResponse(response1);
+        return new JdbcResultSet(resultSetId, response1, this);
+    }
+
+    private void prepareParam(String sql) {
         boolean v16 = jdbcConnection.getClientVersion() >= 16;
-        BaseSessionPrepareReadParamsRequest request;
+        BaseSessionPrepareRequest request;
         if (v16) {
             request = new SessionPrepareReadParams2Request();
         } else {
@@ -65,22 +85,6 @@ public class JdbcStatement implements Statement {
                 .setSql(sql);
         SessionPrepareReadParamsResponse response = invokeSync(request);
         checkResponse(response);
-//        response
-
-
-        int resultSetId = IdGeneratorKit.getNextId(IdType.RESULT_SET);
-
-        CommandExecuteQueryRequest r2 = new CommandExecuteQueryRequest();
-        List<Value> valueList = new ArrayList<>();
-        r2.setSqlId(id)
-                .setFetchSize(Integer.MAX_VALUE)
-                .setMaxRows(Integer.MAX_VALUE)
-                .setResultSetId(resultSetId)
-                .setValueList(valueList);
-        CommandExecuteQueryResponse response1 = nettyClient().invokeSync(socketAddress(), r2);
-
-        checkResponse(response1);
-        return new JdbcResultSet(resultSetId, response1, this);
     }
 
     private void checkResponse(H2Response response) {
@@ -101,13 +105,32 @@ public class JdbcStatement implements Statement {
 
     @Override
     public int executeUpdate(String sql) throws SQLException {
+        prepareParam(sql);
+//        response
+        // TODO: 2019/2/3  
+
+
+        CommandExecuteUpdateRequest request = new CommandExecuteUpdateRequest();
+
+        int resultSetId = IdGeneratorKit.getNextId(IdType.RESULT_SET);
+
+        CommandExecuteQueryRequest r2 = new CommandExecuteQueryRequest();
+        List<Value> valueList = new ArrayList<>();
+        r2.setStatementId(id)
+                .setFetchSize(Integer.MAX_VALUE)
+                .setMaxRows(Integer.MAX_VALUE)
+                .setResultSetId(resultSetId)
+                .setValueList(valueList);
+        CommandExecuteQueryResponse response1 = nettyClient().invokeSync(socketAddress(), r2);
+
+        checkResponse(response1);
         return 0;
     }
 
     @Override
     public void close() throws SQLException {
         CommandCloseRequest commandCloseRequest = new CommandCloseRequest();
-        commandCloseRequest.setId(id);
+        commandCloseRequest.setStatementId(id);
         invokeSync(commandCloseRequest);
     }
 

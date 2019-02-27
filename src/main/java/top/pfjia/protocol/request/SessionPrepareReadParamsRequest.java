@@ -1,8 +1,16 @@
 package top.pfjia.protocol.request;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
 import lombok.Data;
 import lombok.ToString;
-import top.pfjia.protocol.enums.RequestCommandType;
+import top.pfjia.kit.TransferKit;
+import top.pfjia.protocol.ParameterMetadata;
+import top.pfjia.protocol.enums.RequestOperationType;
+import top.pfjia.protocol.enums.SqlCmdType;
+import top.pfjia.protocol.response.SessionPrepareReadParamsResponse;
+
+import java.util.List;
 
 /**
  * 执行SQL之前，需要先进行prepare，
@@ -17,9 +25,18 @@ import top.pfjia.protocol.enums.RequestCommandType;
  */
 @Data
 @ToString(callSuper = true)
-public class SessionPrepareReadParamsRequest extends BaseSessionPrepareReadParamsRequest {
+public class SessionPrepareReadParamsRequest extends BaseSessionPrepareRequest {
     {
-        commandType = RequestCommandType.SESSION_PREPARE_READ_PARAMS;
+        operationType = RequestOperationType.SESSION_PREPARE_READ_PARAMS;
     }
 
+
+    @Override
+    public SessionPrepareReadParamsResponse parseResponse(Channel channel, ByteBuf in) {
+        SessionPrepareReadParamsResponse response = super.parseResponse(channel, in);
+        List<ParameterMetadata> parameterMetadataList = TransferKit.readParameterList(in);
+        response.setCmdType(SqlCmdType.UNKNOWN.getId())
+                .setParameterMetadataList(parameterMetadataList);
+        return response;
+    }
 }

@@ -7,7 +7,7 @@ import lombok.ToString;
 import top.pfjia.Const;
 import top.pfjia.kit.TransferKit;
 import top.pfjia.jdbc.JdbcConnection;
-import top.pfjia.protocol.enums.RequestCommandType;
+import top.pfjia.protocol.enums.RequestOperationType;
 import top.pfjia.protocol.response.SessionSetIdResponse;
 
 /**
@@ -20,7 +20,7 @@ import top.pfjia.protocol.response.SessionSetIdResponse;
 @ToString(callSuper = true)
 public class SessionSetIdRequest extends CommandRequest<SessionSetIdResponse> {
     {
-        commandType = RequestCommandType.SESSION_SET_ID;
+        operationType = RequestOperationType.SESSION_SET_ID;
     }
 
     private String sessionId;

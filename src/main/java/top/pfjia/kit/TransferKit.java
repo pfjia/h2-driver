@@ -150,8 +150,25 @@ public class TransferKit {
         return byteBuf;
     }
 
+    public static List<Value[]> readValuesList(ByteBuf in, int rowCount, int columnCount) {
+        List<Value[]> result = new ArrayList<>();
+        for (int i = 0; i < rowCount; i++) {
+            boolean row = TransferKit.readBoolean(in);
+            if (!row) {
+                break;
+            }
+            Value[] values = new Value[columnCount];
+            for (int j = 0; j < columnCount; j++) {
+                Value v = TransferKit.readValue(in);
+                values[j] = v;
+            }
+            result.add(values);
+        }
+        return result;
+    }
+
     public static Value readValue(ByteBuf in) {
-        Session session=null;
+        Session session = null;
         int version = 18;
         int type = readInt(in);
         switch (type) {

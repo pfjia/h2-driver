@@ -19,7 +19,7 @@ import java.util.List;
  */
 @Data
 @ToString(callSuper = true)
-public class BaseSessionPrepareReadParamsRequest extends CommandRequest<SessionPrepareReadParamsResponse> {
+public class BaseSessionPrepareRequest extends CommandRequest<SessionPrepareReadParamsResponse> {
     protected int sqlId;
     protected String sql;
 
@@ -36,21 +36,8 @@ public class BaseSessionPrepareReadParamsRequest extends CommandRequest<SessionP
         SessionPrepareReadParamsResponse response = super.parseResponse(channel, in);
         boolean isQuery = TransferKit.readBoolean(in);
         boolean readonly = TransferKit.readBoolean(in);
-
-        JdbcConnection jdbcConnection = channel.attr(Const.CONNECTION_ATTRIBUTE_KEY).get();
-        boolean v16 = jdbcConnection.getClientVersion() >= 16;
-        if (v16) {
-            int cmdType = TransferKit.readInt(in);
-            response.setCmdType(cmdType);
-        } else {
-            response.setCmdType(SqlCmdType.UNKNOWN.getId());
-        }
-
-        List<ParameterMetadata> parameterMetadataList = TransferKit.readParameterList(in);
-
         response.setQuery(isQuery)
-                .setReadonly(readonly)
-                .setParameterMetadataList(parameterMetadataList);
+                .setReadonly(readonly);
         return response;
     }
 }

@@ -6,12 +6,16 @@ import top.pfjia.protocol.enums.RequestOperationType;
 
 /**
  * @author pfjia
- * @since 2019/2/2 14:29
+ * @since 2019/2/2 18:26
  */
 @Data
 @ToString(callSuper = true)
-public class SessionPrepareRequest extends BaseSessionPrepareRequest {
+public class ResultResetRequest extends CommandRequest {
     {
-        operationType = RequestOperationType.SESSION_PREPARE;
+        operationType = RequestOperationType.RESULT_RESET;
     }
+
+    private int resultSetId;
+
+
 }

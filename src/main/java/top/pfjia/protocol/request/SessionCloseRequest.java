@@ -1,7 +1,7 @@
 package top.pfjia.protocol.request;
 
 import lombok.Data;
-import top.pfjia.protocol.enums.RequestCommandType;
+import top.pfjia.protocol.enums.RequestOperationType;
 import top.pfjia.protocol.response.SessionCloseResponse;
 
 /**
@@ -11,7 +11,7 @@ import top.pfjia.protocol.response.SessionCloseResponse;
 @Data
 public class SessionCloseRequest extends CommandRequest<SessionCloseResponse> {
     {
-        commandType = RequestCommandType.SESSION_CLOSE;
+        operationType = RequestOperationType.SESSION_CLOSE;
     }
 
 }

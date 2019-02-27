@@ -8,7 +8,7 @@ import lombok.Getter;
  * @author pfjia
  * @since 2019/1/29 10:57
  */
-public enum RequestCommandType {
+public enum RequestOperationType {
     // 握手阶段(此阶段并没有对应的commandId)
 
     // sessionId设置
@@ -48,12 +48,12 @@ public enum RequestCommandType {
     @Getter
     private boolean needResponse = true;
 
-    RequestCommandType(int id, boolean needResponse) {
+    RequestOperationType(int id, boolean needResponse) {
         this.id = id;
         this.needResponse = needResponse;
     }
 
-    RequestCommandType(int id) {
+    RequestOperationType(int id) {
         this.id = id;
     }
 }

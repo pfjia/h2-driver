@@ -10,6 +10,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.Attribute;
 import io.netty.util.concurrent.*;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +58,9 @@ public class NettyClient {
                     protected void initChannel(NioSocketChannel ch) throws Exception {
                         ch.pipeline().addLast(new NettyEncoder())
                                 .addLast(new NettyDecoder())
-                                .addLast(new NettyClientInboundHandler());
+                                .addLast(new NettyClientInboundHandler())
+                                .addLast(new IdleStateHandler(1,1,1))
+                        ;
                     }
                 });
     }

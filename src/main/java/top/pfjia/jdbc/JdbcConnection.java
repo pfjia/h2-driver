@@ -143,7 +143,8 @@ public class JdbcConnection extends TraceObject implements Connection {
 
     @Override
     public PreparedStatement prepareStatement(String sql) throws SQLException {
-        return null;
+        int id = IdGeneratorKit.getNextId(IdType.PREPARED_STATEMENT);
+        return new JdbcPreparedStatement(id, this, ResultSet.TYPE_FORWARD_ONLY, 1007, false);
     }
 
     @Override

@@ -13,9 +13,7 @@ import top.pfjia.protocol.enums.ResponseStatus;
  */
 @Data
 @ToString(callSuper = true)
-public abstract class H2Response extends RemotingCommand {
-
-
+public class H2Response extends RemotingCommand {
     {
         remotingCommandType = RemotingCommandType.RESPONSE;
     }

@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import lombok.Data;
 import lombok.ToString;
-import top.pfjia.protocol.enums.RequestCommandType;
+import top.pfjia.protocol.enums.RequestOperationType;
 import top.pfjia.protocol.response.H2Response;
 
 /**
@@ -14,12 +14,12 @@ import top.pfjia.protocol.response.H2Response;
 @Data
 @ToString(callSuper = true)
 public abstract class CommandRequest<R extends H2Response> extends H2Request<R> {
-    protected RequestCommandType commandType;
+    protected RequestOperationType operationType;
 
     @Override
     public ByteBuf toByteBuf() {
         ByteBuf byteBuf = Unpooled.buffer();
-        byteBuf.writeInt(commandType.getId());
+        byteBuf.writeInt(operationType.getId());
         return byteBuf;
     }
 }

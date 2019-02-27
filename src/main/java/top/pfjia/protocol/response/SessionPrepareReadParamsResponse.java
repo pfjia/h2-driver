@@ -21,7 +21,13 @@ public class SessionPrepareReadParamsResponse extends H2Response {
     private boolean readonly;
 
 
+    /**
+     * {@link top.pfjia.protocol.request.SessionPrepareReadParams2Request}返回此参数
+     */
     private int cmdType;
 
+    /**
+     * {@link top.pfjia.protocol.request.SessionPrepareReadParams2Request}和{@link top.pfjia.protocol.request.SessionPrepareReadParamsRequest}返此参数
+     */
     private List<ParameterMetadata> parameterMetadataList;
 }
